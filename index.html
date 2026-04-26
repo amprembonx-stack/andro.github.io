@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Shop</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-image: url('https://www.tesla.com/sites/default/files/images/tesla-homepage-social.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, #f0f0f0);
+            z-index: 1;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            position: relative;
+            z-index: 2;
+        }
+        
+        #title-right {
+            font-size: 1.2em;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+        
+        nav {
+            background-color: #222;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #007bff;
+        }
+        
+        #banner {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        #search {
+            margin: 20px auto;
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            background: linear-gradient(135deg, #007bff, #00d4ff);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        #search input {
+            padding: 12px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: box-shadow 0.3s;
+        }
+        
+        #search input:focus {
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+        
+        #catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .product {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .product h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        
+        .product p {
+            font-size: 1.1em;
+            color: #555;
+        }
+        
+        .product button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .product button:hover {
+            background: #0056b3;
+        }
+        
+        #cart {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+        
+        #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        #cart-items li button {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #cart-items li button:hover {
+            background: #c82333;
+        }
+        
+        #total {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        #view-cart {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 0;
+            display: block;
+            width: 200px;
+            text-align: center;
+        }
+        
+        #view-cart:hover {
+            background: #0056b3;
+        }
+        
+        #checkout-now {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+        
+        #checkout-now:hover {
+            background: #218838;
+        }
+        
+        #checkout-form {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        #checkout-form.active {
+            display: block;
+        }
+        
+        #checkout-form input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        #checkout {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+        
+        #checkout:hover {
+            background: #218838;
+        }
+        
+        #comments {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        #comments h2 {
+            text-align: center;
+        }
+        
+        .comment {
+            border-bottom: 1px solid #eee;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .comment .details {
+            flex-grow: 1;
+        }
+        
+        .comment .details strong {
+            display: block;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .comment .stars {
+            color: #f1c40f;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .comment p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        
+        .comment .meta {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        footer {
+            background: #181818;
+            color: #fff;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        
+        .footer-section h3 {
+            color: #ffc83d;
+            font-size: 1.5em;
+            margin-bottom: 1em;
+            font-weight: bold;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ccc;
+            font-size: 1em;
+            margin-bottom: 0.5em;
+            text-decoration: none;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5em;
+        }
+        
+        .footer-section a:hover {
+            color: #ffc83d;
+            text-decoration: underline;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1em;
+            margin-top: 1em;
+        }
+        
+        .social-icons a {
+            font-size: 1.5em;
+            color: #ffc83d;
+            transition: color 0.3s;
+            background: none;
+            padding: 0.2em;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+        }
+        
+        .newsletter-form {
+            margin-top: 1em;
+        }
+        
+        .newsletter-form input[type="email"] {
+            padding: 0.7em;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            font-size: 1em;
+        }
+        
+        @media (max-width: 900px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Tesla Shop</h1>
+        <h2>Tesla Shop</h2>
+        <h3>Tesla Shop</h3>
+        <h4>Tesla Shop</h4>
+        <h5>Tesla Shop</h5>
+        <h6>Tesla Shop</h6>
+        <div id="">
+            <nav>
+                <a href="#catalog">Katalog</a>
+                <a href="#cart">Keranjang</a>
+                <a href="#comments">Komentar</a><img src="" alt="">
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <img id="banner" src="https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Homepage-Promo-Model-3-Desktop-US-July.png" alt="Tesla Banner"> a
+    <!-- Pencarian -->
+    <div id="search">
+        <input type="text" id="searchInput" placeholder="Cari produk (misal: Model 3 atau Starlink)" onkeyup="searchProducts()">
+    </div>
+    <div>
+        <h1 style="text-align: center;">Katalog Tesla Shop</h1>
+    </div>
+
+    <!-- Katalog Produk -->
+    <section id="catalog">
+        <div class="product" data-name="Model S" data-price="1500000000">
+            <img src="data:image/webp;base64,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"
+                alt="Model S">
+            <h3>Model S</h3>
+            <p>Harga: Rp 1.500.000.000</p>
+            <p>Deskripsi: Mobil listrik premium dengan performa tinggi dan jarak tempuh hingga 652 km.</p>
+            <button onclick="addToCart('Model S', 1500000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Model 3" data-price="800000000">
+            <img src="https://thafd.bing.com/th/id/OIP.OD-Asn1IstoHM1fiEX1mtAHaEK?w=310&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Model 3">
+            <h3>Model 3</h3>
+            <p>Harga: Rp 800.000.000</p>
+            <p>Deskripsi: Mobil listrik terjangkau dengan akselerasi cepat dan fitur autopilot.</p>
+            <button onclick="addToCart('Model 3', 800000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Model X" data-price="1800000000">
+            <img src="https://thafd.bing.com/th/id/OIP.yvqiuK5ab2x5dnWq-yFKJAHaEW?w=275&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Model X">
+            <h3>Model X</h3>
+            <p>Harga: Rp 1.800.000.000</p>
+            <p>Deskripsi: SUV listrik dengan pintu falcon wing dan kapasitas 7 penumpang.</p>
+            <button onclick="addToCart('Model X', 1800000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Model Y" data-price="900000000">
+            <img src="https://thafd.bing.com/th/id/OIP.yZFjXl8-zgGP4yR44PLqzAHaDt?w=305&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Model Y">
+            <h3>Model Y</h3>
+            <p>Harga: Rp 900.000.000</p>
+            <p>Deskripsi: Crossover listrik serbaguna dengan ruang bagasi luas.</p>
+            <button onclick="addToCart('Model Y', 900000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Cybertruck" data-price="1200000000">
+            <img src="https://thafd.bing.com/th/id/OIF.dF0Ymmlxo5gRSfeQh6V3RQ?w=306&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Cybertruck">
+            <h3>Cybertruck</h3>
+            <p>Harga: Rp 1.200.000.000</p>
+            <p>Deskripsi: Truk listrik tangguh dengan desain futuristik dan daya angkut tinggi.</p>
+            <button onclick="addToCart('Cybertruck', 1200000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Powerwall" data-price="150000000">
+            <img src="https://thafd.bing.com/th/id/OIP.gu6-vd94qb6FdkliZzYUJQHaEK?w=273&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Powerwall">
+            <h3>Powerwall</h3>
+            <p>Harga: Rp 150.000.000</p>
+            <p>Deskripsi: Baterai rumah untuk penyimpanan energi surya.</p>
+            <button onclick="addToCart('Powerwall', 150000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Tesla Powerbank" data-price="5000000">
+            <img src="https://thafd.bing.com/th/id/OIP.QSCp7Ass4o3ud-1aRjBKFgHaEo?w=285&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Tesla Megapack">
+            <h3>Tesla Power Mega Pack</h3>
+            <p>Harga: Rp 5.000.000</p>
+            <p>Deskripsi: Energi besar yang di kirim langsung dari infrastruktur kami.</p>
+            <button onclick="addToCart('Tesla Powerbank', 5000000)">Tambah ke Keranjang</button>
+        </div>
+        <div class="product" data-name="Starlink Kit" data-price="7000000">
+            <img src="https://thafd.bing.com/th/id/OIP.wRCT6YGQnfGmIpqtZW_tTAHaEK?w=303&h=180&c=7&r=0&o=5&pid=1.7" alt="Starlink Kit">
+            <h3>Starlink Kit</h3>
+            <p>Harga: Rp 7.000.000</p>
+            <p>Deskripsi: Internet satelit berkecepatan tinggi untuk area terpencil.</p>
+            <button onclick="addToCart('Starlink Kit', 7000000)">Tambah ke Keranjang</button>
+        </div>
+    </section>
+
+    <!-- Keranjang -->
+    <section id="cart">
+        <h2>Keranjang Belanja</h2>
+        <button id="view-cart" onclick="viewCart()">Lihat Keranjang</button>
+        <ul id="cart-items" style="display: none;"></ul>
+        <p id="total">Total: Rp 0</p>
+        <button id="checkout-now" onclick="showCheckoutForm()" style="display: none;">Checkout Now</button>
+    </section>
+
+    <!-- Checkout -->
+    <section id="checkout-form">
+        <h2>Checkout</h2>
+        <form onsubmit="return false;">
+            <input type="text" id="name" placeholder="Nama Lengkap" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="address" placeholder="Alamat Pengiriman" required>
+            <button id="checkout" onclick="checkout()">Proses Checkout</button>
+        </form>
+    </section>
+
+    <!-- Komentar -->
+    <section id="comments">
+        <h2>Komentar Pengguna</h2>
+        <div style="background:#fff; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.08); padding:2rem;">
+            <div style="display:flex; align-items:center; margin-bottom:1rem;">
+                <img src="https://thafd.bing.com/th?q=Grok+Favicon+Icon&w=120&h=120&c=1&rs=1&qlt=90&r=0&cb=1&pid=InlineBlock&mkt=en-ID&cc=ID&setlang=en&adlt=strict&t=1&mw=247" alt="" style="width:48px; height:48px; border-radius:50%; margin-right:1rem;">
+                <div>
+                    <strong style="color:#0affeb;">ChromRX
+                            <span style="background:#0affeb; color:#fff; font-size:0.7rem; border-radius:4px; padding:2px 6px; margin-left:6px; vertical-align:middle;">DEV</span>
+                        </strong>
+                    <span style="background:#ff6600; color:#fff; font-size:0.7rem; border-radius:4px; padding:2px 6px; margin-left:6px; vertical-align:middle;">ANNOUNCEMENT</span>
+                    <!-- <span style="color:#f0c14b;">★★★★★</span> -->
+                    <div style="font-size:0.9rem; color:#888;">Ampang Gadang, Indonesia · 29 Agustus 2025</div>
+                </div>
+            </div>
+            <p>PENGUMUMAN, Untuk fitur komentar masih di batasi, saat ini hanya untuk staff yang di izinkan untuk berkomentar.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <li><a href="#catalog">Katalog</a></li>
+                <li><a href="#cart">Keranjang</a></li>
+                <li><a href="#comments">Komentar</a>
+                    <li><a href="#faq">FAQ</a></li>
+                    </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@teslashop.com</p>
+                <p>Phone: +1 (800) 555-1234</p>
+                <p>Address: 123 Travel Lane, Adventure City, World</p>
+                <div class="social-icons">
+                    <a href="https://facebook.com/nezexpress" target="_blank">🟦</a>
+                    <a href="https://twitter.com/nezexpress" target="_blank">𝕏</a>
+                    <a href="https://instagram.com/nezexpress" target="_blank">📷</a>
+                    <a href="https://linkedin.com/company/nezexpress" target="_blank">🔗</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>About TeslaShop</h3>
+                <p>TeslaShop is the place we can buy futuristic item with premium quality</p>
+                <p>© 2025 TeslaShop. All rights reserved.</p>
+                <!-- <p>Hosted by GitHub, Made by BONX using Grok 3.</p> -->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        // Menambahkan produk ke keranjang
+        function addToCart(name, price) {
+            cart.push({
+                name,
+                price
+            });
+            updateCart();
+            alert(`${name} ditambahkan ke keranjang!`);
+        }
+
+        // Menghapus produk dari keranjang
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Memperbarui tampilan keranjang
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalElem = document.getElementById('total');
+            const checkoutButton = document.getElementById('checkout-now');
+            cartItems.innerHTML = '';
+            total = 0;
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item.name} - Rp ${item.price.toLocaleString('id-ID')} <button onclick="removeFromCart(${index})">Hapus</button>`;
+                cartItems.appendChild(li);
+                total += item.price;
+            });
+            totalElem.textContent = `Total: Rp ${total.toLocaleString('id-ID')}`;
+            checkoutButton.style.display = cart.length > 0 ? 'block' : 'none';
+        }
+
+        // Menampilkan atau menyembunyikan keranjang
+        function viewCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.style.display = cartItems.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Menampilkan form checkout
+        function showCheckoutForm() {
+            if (cart.length === 0) {
+                alert('Keranjang kosong!');
+                return;
+            }
+            document.getElementById('checkout-form').classList.add('active');
+            document.getElementById('cart-items').style.display = 'block';
+            window.scrollTo({
+                top: document.getElementById('checkout-form').offsetTop,
+                behavior: 'smooth'
+            });
+        }
+
+        // Pencarian produk
+        function searchProducts() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+            products.forEach(product => {
+                const name = product.dataset.name.toLowerCase();
+                product.style.display = name.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        // Proses checkout
+        function checkout() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            if (!name || !email || !address) {
+                alert('Mohon isi semua field checkout!');
+                return;
+            }
+            alert(`Checkout berhasil! Total pembayaran: Rp ${total.toLocaleString('id-ID')}. Dikirim ke: ${address}. Terima kasih, ${name}!`);
+            cart = [];
+            updateCart();
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('checkout-form').classList.remove('active');
+            document.getElementById('cart-items').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
